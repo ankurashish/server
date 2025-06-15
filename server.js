@@ -1,21 +1,15 @@
 require("dotenv").config();
-
 const express = require("express");
-
-
-
 const cors = require("cors");
-const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/auth");
 
-dotenv.config();
 const app = express();
 
-// ✅ CORS should come before routes
+// ✅ CORS config before all routes
 app.use(
   cors({
-    origin: "https://weeks-of-life-zsls-lqx9jf14f-ankurashishs-projects.vercel.app",
+    origin: "https://weeks-of-life-zsls-2xnqxh2hs-ankurashishs-projects.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   })
@@ -23,10 +17,15 @@ app.use(
 
 app.use(express.json());
 
+// ✅ optional test route
+app.get("/", (req, res) => {
+  res.send("✅ Server is running and CORS is working.");
+});
+
 // API routes
 app.use("/api/auth", authRoutes);
 
-// MongoDB + server start
+// Connect to MongoDB and start server
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
